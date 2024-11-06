@@ -58,24 +58,25 @@ def test_model(trainer, datamodule, result_save_path=None, search_memo_size=Fals
             for memo_size in memo_sizes:
                 model = LitSacarsmModel.load_from_checkpoint(p, memo_size=memo_size)
                 result = trainer.test(model, datamodule=datamodule, ckpt_path=ckpt.best_model_path, verbose=False)
-                if memo_rv_file is not None:
-                    rv = result[0]
-                    acc = round(rv["test_binary/BinaryAccuracy"] * 100, 2)
-                    f1 = round(rv["test_binary/BinaryF1Score"] * 100, 2)
-                    pr = round(rv["test_binary/BinaryPrecision"] * 100, 2)
-                    r = round(rv["test_binary/BinaryRecall"] * 100, 2)
-                    memo_rv_file.write(f"{memo_size}    {acc}    {f1}    {pr}    {r}\n")
-                if result[0]["test_binary/BinaryAccuracy"] > max_acc:
-                    max_acc = result[0]["test_binary/BinaryAccuracy"]
-                    max_rv = result[0]
-                    max_ckpt = ckpt.best_model_path
-                    max_memo_size = memo_size
+                # if memo_rv_file is not None:
+                #     rv = result[0]
+                #     print(f'RV is {rv}\n')
+                #     acc = round(rv["test_binary/BinaryAccuracy"] * 100, 2)
+                #     f1 = round(rv["test_binary/BinaryF1Score"] * 100, 2)
+                #     pr = round(rv["test_binary/BinaryPrecision"] * 100, 2)
+                #     r = round(rv["test_binary/BinaryRecall"] * 100, 2)
+                #     memo_rv_file.write(f"{memo_size}    {acc}    {f1}    {pr}    {r}\n")
+                # if result[0]["test_binary/BinaryAccuracy"] > max_acc:
+                #     max_acc = result[0]["test_binary/BinaryAccuracy"]
+                #     max_rv = result[0]
+                #     max_ckpt = ckpt.best_model_path
+                #     max_memo_size = memo_size
         else:
             result = trainer.test(model, datamodule=datamodule, ckpt_path=ckpt.best_model_path, verbose=False)
-            if result[0]["test_binary/BinaryAccuracy"] > max_acc:
-                max_acc = result[0]["test_binary/BinaryAccuracy"]
-                max_rv = result[0]
-                max_ckpt = ckpt.best_model_path
+            # if result[0]["test_binary/BinaryAccuracy"] > max_acc:
+            #     max_acc = result[0]["test_binary/BinaryAccuracy"]
+            #     max_rv = result[0]
+            #     max_ckpt = ckpt.best_model_path
 
     if rv_file is not None:
         acc = round(max_rv["test_binary/BinaryAccuracy"] * 100, 2)
@@ -153,23 +154,23 @@ def cli_main() -> None:
     test_dataloader = datamodule.test_dataloader()
     val_dataloader = datamodule.val_dataloader()
     
-    # Test Model
-    results = trainer.test(
-        model,
-        dataloaders=test_dataloader,
-        verbose=True,
-    )
-
-    print(results)
-    # # Call the test function with desired arguments
-    # print(f'Test Model Here')
-    # test_model(
-    #     trainer, 
-    #     datamodule, 
-    #     result_save_path="results.txt",          # Set the path to save results
-    #     search_memo_size=True, 
-    #     memo_size_save_path="memo_sizes.txt"     # Set the path to save memo size results
+    # # Test Model
+    # results = trainer.test(
+    #     model,
+    #     dataloaders=test_dataloader,
+    #     verbose=True,
     # )
+
+    # print(results)
+    # # Call the test function with desired arguments
+    print(f'Test Model Here')
+    test_model(
+        trainer, 
+        datamodule, 
+        result_save_path="results.txt",          # Set the path to save results
+        search_memo_size=True, 
+        memo_size_save_path="memo_sizes.txt"     # Set the path to save memo size results
+    )
 
 if __name__ == "__main__":
     cli_main()

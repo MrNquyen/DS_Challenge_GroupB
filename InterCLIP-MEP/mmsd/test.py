@@ -1,8 +1,5 @@
-from utils import load_config_from_yaml
-
-if __name__=='__main__':
-    a = {
-        'b': 1,
-        'a': 2,
-    }
-    print(a[None])
+import json
+json_path = 'annotations\\vimmsd_train.json'
+with open(json_path, 'r', encoding='utf-8') as file:
+    json_file = json.load(file)
+print(len(json_file))

@@ -295,7 +295,7 @@ class LitSacarsmModel(pl.LightningModule):
         memo_pred, _, _ = self.predictor(batch)
         memo_label = torch.argmax(memo_pred, dim=-1)
         # self.test_metric_macro.update(memo_pred, batch["label"])
-        self.test_metric_binary.update(memo_label, batch["label"])
+        # self.test_metric_binary.update(memo_label, batch["label"])
         
         self.predictions = memo_pred, 
         self.labels = memo_label
@@ -323,9 +323,9 @@ class LitSacarsmModel(pl.LightningModule):
     
     def on_test_epoch_end(self):
         # Compute test metric and log results
-        test_metric = self.test_metric_binary.compute()
-        self.log_dict(test_metric)
-        self.test_metric_binary.reset()
+        # test_metric = self.test_metric_binary.compute()
+        # self.log_dict(test_metric)
+        # self.test_metric_binary.reset()
         
         # Collect outputs for saving predictions and labels
         preds = self.predictions, 
@@ -344,7 +344,7 @@ class LitSacarsmModel(pl.LightningModule):
         
         # Save predictions to a CSV file
         df = pd.DataFrame({"True_Labels": labels})
-        df.to_csv("./predictions/test_predictions.csv", index=False)
+        df.to_csv(f"./predictions/test_predictions.csv", index=False)
         print("Predictions saved to predictions/test_predictions.csv")
         
         # Clean up the predictor for further use
