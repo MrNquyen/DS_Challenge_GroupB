@@ -185,7 +185,7 @@ class InteractiveCLIP4Sacarsm(PreTrainedModel):
                 self.config.projection_dim,
             ),
             nn.ReLU(),
-            nn.Linear(self.config.projection_dim, self.config.num_labels),
+            nn.Linear(self.config.projection_dim, 4),
         )
 
         self.post_init()
