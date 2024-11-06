@@ -72,6 +72,7 @@ class SarcasmDataLoader:
             "text-sarcasm": 1,
             "multi-sarcasm": 2,
             "not-sarcasm": 3,
+            None: -1,
         }
 
         with open(self.file_json, 'r', encoding='utf-8') as file:
