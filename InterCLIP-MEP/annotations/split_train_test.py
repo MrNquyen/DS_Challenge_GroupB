@@ -11,7 +11,7 @@ list_keys = list(json_file.keys())
 train_keys, val_keys = train_test_split(list_keys, test_size=0.1, shuffle=True)
 
 # Create train and test JSON objects
-train_json = {key: json_file[key] for key in list(train_keys)[:3500]}
+train_json = {key: json_file[key] for key in list(train_keys)[:1000]}
 val_json = {key: json_file[key] for key in val_keys}
 
 # Define the function to save JSON data
