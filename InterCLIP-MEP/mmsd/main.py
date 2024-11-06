@@ -139,7 +139,7 @@ def cli_main() -> None:
     trainer = Trainer(
         # devices=1 if device == "gpu" else 1,   # number of GPUs or CPU
         # strategy="ddp" if device == "gpu" else None,
-        devices=1,   # number of GPUs or CPU
+        devices=max(1, torch.cuda.device_count()),   # number of GPUs or CPU
         strategy="ddp",
         accelerator=device, 
         callbacks=[PrintCallback(), checkpoint_callback_train_f1, checkpoint_callback_val_f1],
