@@ -22,6 +22,7 @@ class SacarsmModelInput(TypedDict, total=False):
     id: list[str]
 
 def preprocess(example, image_processor, tokenizer):
+    print('Preprocessing Step -------------\n')
     image = example['image']
     text = example['text']
 
