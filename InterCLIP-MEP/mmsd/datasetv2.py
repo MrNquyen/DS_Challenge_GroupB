@@ -85,12 +85,17 @@ class SarcasmDataLoader:
             if img is None:
                 continue
             
+            try:
+                label = lable2id[value['label']]
+            except:
+                label = None
+                
             # Store data as paths or preprocessed values
             self.data.append({
                 'id': idx,
                 'image': img,
                 'text': value['caption'],
-                'label': lable2id[value['label']]
+                'label': label,
             })
 
     def to_hf_dataset(self):
