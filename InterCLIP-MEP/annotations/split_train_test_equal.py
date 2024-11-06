@@ -31,12 +31,12 @@ key_not_len = len(key_not)
 key_text_len = len(key_text)
 key_image_len = len(key_image)
 
-train_key_multi, val_key_multi = key_multi[:int(key_multi_len * 0.8)], key_multi[int(key_multi_len * 0.8):]
-train_key_not, val_key_not = key_not[:int(key_not_len * 0.8)], key_not[int(key_not_len * 0.8):]
+train_key_multi, val_key_multi = key_multi[:1000], key_multi[1000:1500]
+train_key_not, val_key_not = key_not[:1000], key_not[1000:1500]
 # train_key_text, val_key_text = key_text[:int(key_text_len * 0.8)], key_text[int(key_text_len * 0.8):]
 # train_key_image, val_key_image = key_image[:int(key_image_len * 0.8)], key_image[int(key_image_len * 0.8):]
-train_key_text, val_key_text = key_text[:1300], key_text[1300:2000]
-train_key_image, val_key_image = key_image[:1300], key_image[1300:2000]
+train_key_text, val_key_text = key_text[:int(key_text_len * 0.8)], key_text[int(key_text_len * 0.8):]
+train_key_image, val_key_image = key_image[:int(key_image_len * 0.8)], key_image[int(key_image_len * 0.8):]
 
 train_keys = train_key_multi + train_key_not + train_key_text + train_key_image
 val_keys = val_key_multi + val_key_not + val_key_text + val_key_image
