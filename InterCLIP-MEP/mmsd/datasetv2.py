@@ -89,7 +89,7 @@ class SarcasmDataLoader:
             try:
                 label = lable2id[value['label']]
             except:
-                label = None
+                label = -1
                 
             # Store data as paths or preprocessed values
             self.data.append({
