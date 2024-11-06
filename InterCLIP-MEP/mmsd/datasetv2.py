@@ -22,7 +22,7 @@ class SacarsmModelInput(TypedDict, total=False):
     id: list[str]
 
 def preprocess(example, image_processor, tokenizer):
-    print('Preprocessing Step -------------\n')
+    print(f'Preprocessing Step ------------- Torch cuda device is: {torch.cuda.is_available()}\n')
     image = example['image']
     text = example['text']
 
