@@ -141,7 +141,7 @@ def cli_main() -> None:
         strategy="ddp" if device == "gpu" else None,
         # devices=max(1, torch.cuda.device_count()),   # number of GPUs or CPU
         # strategy="ddp",
-        accelerator=device, 
+        accelerator='gpu', 
         callbacks=[PrintCallback(), checkpoint_callback_train_f1, checkpoint_callback_val_f1],
         max_epochs=10,    # Set the maximum epochs for training
         log_every_n_steps=50
