@@ -262,11 +262,11 @@ class LitSacarsmModel(pl.LightningModule):
             assert output.logits is not None
             
             print(f'lit_model: Output logits shape = {output.logits.shape}')
-            print(f'lit_model: Output logits = {output.logits}')
+            # print(f'lit_model: Output logits = {output.logits}')
             pred = F.softmax(output.logits, dim=-1)
             
             print(f'lit_model: Pred shape = {pred.shape}')
-            print(f'lit_model: Pred = {pred}')
+            # print(f'lit_model: Pred = {pred}')
             metric_step = self.train_metric(torch.argmax(pred, dim=-1), batch["label"])
             self.log_dict(metric_step, batch_size=batch_size)
         return output[0]
