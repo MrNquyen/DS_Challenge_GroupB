@@ -78,6 +78,10 @@ class LitSacarsmModel(pl.LightningModule):
         self.lora_alpha = lora_alpha
         self.lora_dropout = lora_dropout
         self.use_sim_loss = use_sim_loss
+        
+        # Save variables:
+        self.all_predictions = torch.tensor([], device='cuda')
+        self.all_labels = torch.tensor([], device='cuda')
 
         # inference
         self.memo_size = memo_size
@@ -262,11 +266,11 @@ class LitSacarsmModel(pl.LightningModule):
             assert output.logits is not None
             
             print(f'lit_model: Output logits shape = {output.logits.shape}')
-            # print(f'lit_model: Output logits = {output.logits}')
+            print(f'lit_model: Output logits = {output.logits}')
             pred = F.softmax(output.logits, dim=-1)
             
             print(f'lit_model: Pred shape = {pred.shape}')
-            # print(f'lit_model: Pred = {pred}')
+            print(f'lit_model: Pred = {pred}')
             metric_step = self.train_metric(torch.argmax(pred, dim=-1), batch["label"])
             self.log_dict(metric_step, batch_size=batch_size)
         return output[0]
@@ -308,6 +312,9 @@ class LitSacarsmModel(pl.LightningModule):
         self.predictions = memo_pred, 
         self.labels = memo_label
         
+        self.all_predictions = torch.concat((self.all_predictions, memo_pred))
+        self.all_labels = torch.concat((self.all_labels, memo_label))
+        
         return {"predictions": memo_pred, "labels": memo_label}
 
     # def on_test_epoch_end(self, outputs) -> None:
@@ -336,8 +343,9 @@ class LitSacarsmModel(pl.LightningModule):
         # self.test_metric_binary.reset()
         
         # Collect outputs for saving predictions and labels
-        preds = self.predictions, 
-        labels = self.labels
+        preds = self.all_predictions, 
+        labels = self.all_labels
+        
         
         # print(f'Predictions[0]: {preds}')
         # preds = preds[0][0].cpu().numpy()

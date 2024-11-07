@@ -93,10 +93,10 @@ class MemoEnhancedPredictor(nn.Module):
         pred = F.softmax(logits, dim=-1)
         
         print(f'PredictorV2: Output logits shape = {logits.shape}')
-        # print(f'PredictorV2: Output logits = {logits}')
+        print(f'PredictorV2: Output logits = {logits}')
         
         print(f'PredictorV2: Pred shape = {pred.shape}')
-        # print(f'PredictorV2: Pred = {pred}')
+        print(f'PredictorV2: Pred = {pred}')
 
         if not self.use_memo:
             return pred

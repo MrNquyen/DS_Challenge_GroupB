@@ -300,3 +300,6 @@ class InteractiveCLIP4Sacarsm(PreTrainedModel):
             logits=logits,
             fused_embeds=fused_embeds,
         )
+
+
+
