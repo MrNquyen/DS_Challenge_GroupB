@@ -27,14 +27,14 @@ class MemoEnhancedPredictor(nn.Module):
         if use_memo:
             self.memo_size = memo_size
             self.register_buffer(
-                "entropy", torch.zeros(2, memo_size, device=model.device)
+                "entropy", torch.zeros(4, memo_size, device=model.device)
             )
             self.register_buffer(
                 "embed_memo",
-                torch.zeros(2, memo_size, embed_size, device=model.device),
+                torch.zeros(4, memo_size, embed_size, device=model.device),
             )
             self.register_buffer(
-                "memo_ptr", torch.zeros(2, dtype=torch.long, device=model.device)
+                "memo_ptr", torch.zeros(4, dtype=torch.long, device=model.device)
             )
 
     def write(
@@ -91,6 +91,12 @@ class MemoEnhancedPredictor(nn.Module):
 
         logits = output.logits
         pred = F.softmax(logits, dim=-1)
+        
+        print(f'PredictorV2: Output logits shape = {logits.shape}')
+        print(f'PredictorV2: Output logits = {logits}')
+        
+        print(f'PredictorV2: Pred shape = {pred.shape}')
+        print(f'PredictorV2: Pred = {pred}')
 
         if not self.use_memo:
             return pred
@@ -100,8 +106,8 @@ class MemoEnhancedPredictor(nn.Module):
         entropy = -torch.sum(pred * log_pred, dim=-1)
         pseudo_y = torch.argmax(pred, dim=-1)
 
-        self.write(output, pseudo_y, entropy, 0)
-        self.write(output, pseudo_y, entropy, 1)
+        for label in range(4):  # Iterate over four classes
+            self.write(output, pseudo_y, entropy, label)
 
         cosin = torch.einsum("bd,cmd->bmc", output.fused_embeds, self.embed_memo)
         cosin = cosin.sum(dim=1)

@@ -275,6 +275,7 @@ class InteractiveCLIP4Sacarsm(PreTrainedModel):
 
         fused_embeds = torch.cat([image_st_text_embeds, text_st_image_embeds], dim=-1)
         logits = self.classifier(fused_embeds)
+        print(f'Modelv2: Logits for the output is shape of : {logits.shape}')
 
         if self.config.use_sim_loss:
             fused_embeds = self.fuse_projection(fused_embeds)
@@ -299,6 +300,3 @@ class InteractiveCLIP4Sacarsm(PreTrainedModel):
             logits=logits,
             fused_embeds=fused_embeds,
         )
-
-
-

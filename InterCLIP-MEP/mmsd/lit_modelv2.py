@@ -260,7 +260,13 @@ class LitSacarsmModel(pl.LightningModule):
         )
         with torch.no_grad():
             assert output.logits is not None
+            
+            print(f'lit_model: Output logits shape = {output.logits.shape}')
+            print(f'lit_model: Output logits = {output.logits}')
             pred = F.softmax(output.logits, dim=-1)
+            
+            print(f'lit_model: Pred shape = {pred.shape}')
+            print(f'lit_model: Pred = {pred}')
             metric_step = self.train_metric(torch.argmax(pred, dim=-1), batch["label"])
             self.log_dict(metric_step, batch_size=batch_size)
         return output[0]
@@ -292,6 +298,8 @@ class LitSacarsmModel(pl.LightningModule):
         if self.predictor is None:
             raise ValueError("predictor is not initialized")
         batch.pop("id")
+        
+        print('READY TO USE PREDICTOR TO EVALUATE TEST')
         memo_pred, _, _ = self.predictor(batch)
         memo_label = torch.argmax(memo_pred, dim=-1)
         # self.test_metric_macro.update(memo_pred, batch["label"])
