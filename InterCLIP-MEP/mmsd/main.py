@@ -131,14 +131,16 @@ def cli_main() -> None:
         monitor="train/MulticlassF1Score",   # or any other validation metric you are tracking
         save_top_k=1,
         mode="min",
-        filename="{epoch}-{train_MulticlassF1Score:.2f}"
+        filename="{epoch}-{train_MulticlassF1Score:.2f}",
+        save_last=True,
     )
     
     checkpoint_callback_val_f1 = ModelCheckpoint(
         monitor="val/MulticlassF1Score",   # or any other validation metric you are tracking
         save_top_k=1,
         mode="min",
-        filename="{epoch}-{val_MulticlassF1Score:.2f}"
+        filename="{epoch}-{val_MulticlassF1Score:.2f}",
+        save_last=True,
     )
 
     # Initialize trainer with desired configurations
